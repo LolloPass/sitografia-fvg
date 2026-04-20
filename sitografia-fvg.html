@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sitografia FVG — Orientamento e Formazione</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Sora:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  /* ── Reset & base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #f6f5f1;
+    --surface:   #ffffff;
+    --border:    #e2dfd8;
+    --border-md: #cbc7be;
+    --text:      #1a1916;
+    --text-2:    #6b6860;
+    --text-3:    #9e9b95;
+    --radius:    14px;
+    --radius-sm: 8px;
+    --shadow:    0 1px 3px rgba(0,0,0,.06), 0 4px 12px rgba(0,0,0,.05);
+    --shadow-md: 0 8px 32px rgba(0,0,0,.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:      #181714;
+      --surface: #231f1a;
+      --border:  #312d27;
+      --border-md:#4a4540;
+      --text:    #f0ece5;
+      --text-2:  #a09b93;
+      --text-3:  #6b6860;
+    }
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── Layout ── */
+  .page { max-width: 1080px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* ── Header ── */
+  .site-header {
+    padding: 52px 0 36px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+  .header-eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 500; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--text-3);
+    margin-bottom: 10px;
+  }
+  .header-eyebrow::before {
+    content: ''; display: block; width: 20px; height: 1px;
+    background: var(--text-3);
+  }
+  .site-header h1 {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 600; line-height: 1.18;
+    color: var(--text); letter-spacing: -.02em;
+    max-width: 600px;
+  }
+  .site-header p {
+    margin-top: 10px; font-size: 14px;
+    color: var(--text-2); max-width: 500px;
+  }
+
+  /* ── Loading / error states ── */
+  .state-box {
+    text-align: center; padding: 60px 20px;
+    color: var(--text-2); font-size: 14px;
+  }
+  .spinner {
+    width: 28px; height: 28px; margin: 0 auto 16px;
+    border: 2px solid var(--border); border-top-color: var(--text-2);
+    border-radius: 50%; animation: spin .7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Controls ── */
+  .controls { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+  .search-wrap { position: relative; }
+  .search-wrap svg {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    width: 16px; height: 16px; color: var(--text-3); pointer-events: none;
+  }
+  .search-input {
+    width: 100%; padding: 11px 14px 11px 40px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); color: var(--text);
+    font-family: inherit; font-size: 14px;
+    transition: border-color .15s;
+    outline: none;
+  }
+  .search-input:focus { border-color: var(--border-md); }
+  .search-input::placeholder { color: var(--text-3); }
+
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 6px 14px; font-size: 12px; font-family: inherit;
+    font-weight: 500; border: 1px solid var(--border);
+    border-radius: 20px; background: transparent;
+    color: var(--text-2); cursor: pointer;
+    transition: all .15s;
+  }
+  .filter-btn:hover { border-color: var(--border-md); color: var(--text); }
+  .filter-btn.active {
+    background: var(--text); color: var(--bg);
+    border-color: var(--text);
+  }
+
+  /* ── Stats bar ── */
+  .stats-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .stats-bar span { font-size: 12px; color: var(--text-3); }
+
+  /* ── Grid ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+  }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px;
+    display: flex; flex-direction: column; gap: 10px;
+    cursor: pointer; transition: border-color .15s, box-shadow .15s;
+    position: relative; overflow: visible;
+  }
+  .card:hover { border-color: var(--border-md); box-shadow: var(--shadow); }
+
+  .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+  .card-icon {
+    width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+  }
+  .card-title { font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 500; line-height: 1.3; }
+  .card-desc { font-size: 13px; color: var(--text-2); line-height: 1.6; flex: 1; }
+
+  .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+  .tag {
+    font-size: 11px; font-weight: 500; padding: 3px 10px;
+    border-radius: 20px; border: 1px solid transparent;
+  }
+  .btn-detail {
+    font-size: 12px; padding: 5px 12px; border-radius: var(--radius-sm);
+    background: var(--bg); border: 1px solid var(--border);
+    color: var(--text-2); cursor: pointer; font-family: inherit;
+    transition: all .15s;
+  }
+  .btn-detail:hover { border-color: var(--border-md); color: var(--text); }
+
+  /* Tooltip */
+  .tooltip {
+    position: absolute; bottom: calc(100% + 10px); left: 16px;
+    background: var(--surface); border: 1px solid var(--border-md);
+    border-radius: var(--radius-sm); padding: 10px 14px;
+    width: 230px; z-index: 50; pointer-events: none;
+    box-shadow: var(--shadow-md);
+    opacity: 0; transform: translateY(4px);
+    transition: opacity .15s, transform .15s;
+  }
+  .card:hover .tooltip { opacity: 1; transform: translateY(0); }
+  .tooltip-url { font-size: 11px; color: #4a7fc1; margin-bottom: 6px; word-break: break-all; }
+  .tooltip-row { font-size: 11px; color: var(--text-2); margin-top: 3px; }
+  .tooltip-row strong { color: var(--text-3); font-weight: 500; }
+
+  /* No results */
+  .no-results {
+    grid-column: 1/-1; text-align: center;
+    padding: 60px 20px; color: var(--text-3); font-size: 14px;
+  }
+
+  /* ── Modal ── */
+  .overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,.4);
+    z-index: 200; display: flex; align-items: center; justify-content: center;
+    padding: 20px; opacity: 0; pointer-events: none;
+    transition: opacity .2s;
+  }
+  .overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 32px;
+    width: min(560px, 100%); max-height: 85vh; overflow-y: auto;
+    transform: translateY(16px); transition: transform .2s;
+    position: relative;
+  }
+  .overlay.open .modal { transform: translateY(0); }
+  .modal-close {
+    position: absolute; top: 20px; right: 20px;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--bg); border: 1px solid var(--border);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: var(--text-2); transition: all .15s;
+  }
+  .modal-close:hover { border-color: var(--border-md); color: var(--text); }
+  .modal-cat {
+    display: inline-block; font-size: 11px; font-weight: 500;
+    padding: 3px 10px; border-radius: 20px; margin-bottom: 14px;
+  }
+  .modal h2 {
+    font-family: 'Sora', sans-serif; font-size: 20px;
+    font-weight: 600; line-height: 1.25; margin-bottom: 12px;
+    letter-spacing: -.015em;
+  }
+  .modal-detail {
+    font-size: 14px; color: var(--text-2); line-height: 1.75;
+    margin-bottom: 24px;
+  }
+  .modal-meta { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+  .meta-row { display: flex; gap: 10px; align-items: flex-start; }
+  .meta-label {
+    font-size: 11px; font-weight: 500; color: var(--text-3);
+    text-transform: uppercase; letter-spacing: .06em;
+    min-width: 110px; padding-top: 2px;
+  }
+  .meta-value { font-size: 13px; color: var(--text); }
+  .modal-link {
+    display: inline-block; padding: 10px 22px;
+    background: var(--text); color: var(--bg);
+    border-radius: var(--radius-sm); font-size: 13px;
+    font-weight: 500; text-decoration: none; transition: opacity .15s;
+  }
+  .modal-link:hover { opacity: .8; }
+  .modal-nolink { font-size: 12px; color: var(--text-3); margin-top: 4px; }
+
+  /* ── Config banner ── */
+  .config-banner {
+    background: #fffbeb; border: 1px solid #fde68a;
+    border-radius: var(--radius-sm); padding: 14px 18px;
+    font-size: 13px; color: #92400e; margin-bottom: 24px;
+    display: none;
+  }
+  .config-banner.visible { display: block; }
+  .config-banner code {
+    background: #fef3c7; padding: 2px 6px; border-radius: 4px;
+    font-family: monospace; font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════
+     ⚙️  CONFIGURAZIONE
+     Sostituisci il valore di SHEET_CSV_URL con
+     l'URL CSV del tuo Google Sheets pubblicato.
+     Vedi il file ISTRUZIONI.txt per i dettagli.
+════════════════════════════════ -->
+<script>
+  const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTO0Wi3RAqSuUbSmgie5yY6_bVhmux7EN6qHfJ8oYcUXd6JvRxIMM03SckM7Z7GM5626vyELjyTCHcr/pubhtml";
+</script>
+
+<div class="page">
+
+  <header class="site-header">
+    <div class="header-eyebrow">Regione FVG</div>
+    <h1>Orientamento e formazione in Friuli Venezia Giulia</h1>
+    <p>Risorse selezionate per istruzione, lavoro e orientamento nel territorio regionale</p>
+  </header>
+
+  <div class="config-banner" id="configBanner">
+    ⚠️ Il sito sta usando dati di esempio. Per usare il tuo Google Sheets, apri il file HTML in un editor di testo e sostituisci <code>INSERISCI_QUI_IL_TUO_URL_CSV</code> con il link CSV del tuo foglio. Consulta <strong>ISTRUZIONI.txt</strong> per i dettagli.
+  </div>
+
+  <div id="main-content">
+    <div class="state-box" id="loadingState">
+      <div class="spinner"></div>
+      Caricamento risorse in corso…
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+// ── Colori per categoria ──────────────────────────────────────────────────────
+const CAT_COLORS = {
+  "Orientamento":            { bg:"#EEEDFE", border:"#AFA9EC", text:"#3C3489", icon:"◎" },
+  "Istruzione":              { bg:"#E1F5EE", border:"#5DCAA5", text:"#085041", icon:"◈" },
+  "Formazione professionale":{ bg:"#FAEEDA", border:"#EF9F27", text:"#633806", icon:"◑" },
+  "Università":              { bg:"#E6F1FB", border:"#85B7EB", text:"#0C447C", icon:"◆" },
+  "Borse di studio":         { bg:"#FBEAF0", border:"#ED93B1", text:"#72243E", icon:"◇" },
+  "Lavoro":                  { bg:"#EAF3DE", border:"#97C459", text:"#27500A", icon:"◐" },
+  "Alta formazione":         { bg:"#FAECE7", border:"#F0997B", text:"#4A1B0C", icon:"◉" },
+  "Internazionale":          { bg:"#F1EFE8", border:"#B4B2A9", text:"#2C2C2A", icon:"○" }
+};
+const DEFAULT_COLOR = { bg:"#F1EFE8", border:"#B4B2A9", text:"#2C2C2A", icon:"●" };
+
+// ── Dati di esempio (usati se il CSV non è ancora configurato) ──────────────
+const SAMPLE_DATA = [
+  ["Titolo","Descrizione","Dettaglio","Categoria","URL","Target","Aggiornamento"],
+  ["COR – Centri regionali di orientamento","Punto di riferimento per counselling e bilancio di competenze in FVG.","I Centri regionali di orientamento offrono colloqui individuali, bilancio di competenze e consulenza sulla scelta formativa e professionale. Operano sul territorio del FVG con sedi a Trieste, Udine, Pordenone e Gorizia.","Orientamento","https://www.regione.fvg.it","Studenti, adulti in transizione","2024"],
+  ["Giovani FVG","Portale dedicato ai giovani per lavoro, studio, mobilità e tempo libero.","Il portale raccoglie tutte le opportunità rivolte ai giovani della regione: bandi, tirocini, borse di studio, eventi culturali. Aggiornato continuamente dalla Regione FVG.","Orientamento","https://www.giovanifvg.it/","Giovani 16–35 anni","Continuamente"],
+  ["L'Esperto risponde","Servizio interattivo per porre quesiti agli orientatori regionali.","Tramite form online è possibile inviare domande su percorsi di studio, formazione o lavoro. Le risposte vengono fornite da orientatori professionisti entro pochi giorni lavorativi.","Orientamento","http://serviziorientamento.regione.fvg.it/","Studenti e famiglie","2024"],
+  ["Eduscopio (Fondazione Agnelli)","Confronto tra scuole superiori basato sul successo dei diplomati.","Strumento di comparazione delle scuole superiori italiane basato su dati reali: media dei voti universitari dei diplomati e tasso di occupazione dopo il diploma.","Istruzione","https://eduscopio.it/","Studenti in uscita dalle medie","Annuale"],
+  ["Ministero dell'Istruzione","Sito ufficiale con normativa, circolari e dati su tutto il sistema scolastico.","Portale istituzionale con accesso a leggi, circolari ministeriali, dati statistici sulle scuole italiane, modulistica e informazioni su esami di stato e PCTO.","Istruzione","https://www.miur.gov.it","Docenti, famiglie, studenti","Continuamente"],
+  ["Io Scelgo, Io Studio","Portale ministeriale per il passaggio dalle medie alle superiori.","Portale del MIUR con video, guide e strumenti per aiutare ragazzi e famiglie a scegliere consapevolmente il percorso di studi dopo le medie.","Istruzione","https://www.istruzione.it/orientamento/","Studenti 13–14 anni","2024"],
+  ["ITS Academy FVG","Percorsi biennali post-diploma ad alta occupabilità in settori tecnici.","Gli ITS offrono corsi biennali post-diploma con forte componente pratica (almeno 30% in azienda). Attivi in meccanica, digitale, turismo e agroalimentare. Tasso occupazione >80%.","Formazione professionale","#","Diplomati","Annuale"],
+  ["Catalogo PIAZZA/GOL","Corsi di formazione finanziati per chi cerca lavoro o vuole riqualificarsi.","Il Programma GOL finanzia percorsi di riqualificazione professionale per disoccupati, NEET e persone in transizione lavorativa. Molti corsi sono gratuiti o fortemente agevolati.","Formazione professionale","#","Disoccupati, NEET, adulti","Continuamente"],
+  ["Università di Trieste","Offerta formativa, orientamento e servizi per i futuri studenti.","UniTS offre oltre 90 corsi di laurea. Il servizio di orientamento include open day, colloqui individuali, test di autovalutazione e supporto alla scelta del percorso.","Università","https://www.units.it","Diplomati e matricole","Annuale"],
+  ["Università di Udine","Corsi di laurea, test e supporto all'orientamento dell'ateneo friulano.","UniUD offre circa 80 corsi con forte orientamento alle scienze applicate, agraria, ingegneria e lingue. Comprende incontri con tutor e simulazioni dei test d'ingresso.","Università","https://www.uniud.it","Diplomati e matricole","Annuale"],
+  ["Almalaurea","Statistiche reali su soddisfazione laureati e tassi di occupazione.","Consorzio che raccoglie dati su oltre 300.000 laureati/anno. Confronta tasso di occupazione e soddisfazione per ogni corso di laurea di ogni ateneo italiano.","Università","https://www.almalaurea.it/","Chi sceglie la laurea","Annuale"],
+  ["ARDiS FVG","Borse di studio, mense, alloggi universitari e contributi libri.","Gestisce le borse di studio universitarie (fino a ~5.000€/anno), posti alloggio per fuori sede, mense convenzionate e contributi per libri di testo e trasporto.","Borse di studio","https://www.ardis.fvg.it/","Studenti universitari","Annuale"],
+  ["Borse di studio statali MIUR","Contributi ministeriali per studenti meritevoli con ISEE favorevole.","Il MIUR eroga borse di studio per studenti di scuola secondaria e università in condizioni economiche disagiate. I bandi vengono pubblicati ogni anno entro settembre.","Borse di studio","#","Studenti con ISEE basso","Annuale"],
+  ["Offerte lavoro FVG","Database ufficiale regionale delle posizioni aperte in FVG.","Portale con le offerte pubblicate dai Centri per l'Impiego e dalle aziende. Filtrabili per settore, comune, tipo di contratto. Accesso gratuito senza registrazione.","Lavoro","https://offertelavoro.regione.fvg.it/","Chi cerca lavoro","Continuamente"],
+  ["Excelsior Unioncamere","Previsioni sui profili più cercati dalle aziende a livello locale.","Pubblica mensilmente le previsioni di assunzione delle imprese italiane con dettaglio regionale. Utile per capire quali figure sono più richieste in FVG.","Lavoro","#","Orientatori, adulti","Mensile"],
+  ["EURES FVG","Consulenza per lavorare in altri paesi dell'Unione Europea.","La rete EURES facilita la mobilità professionale in Europa. Offre consulenza individuale su ricerca offerte, riconoscimento qualifiche, sistemi previdenziali europei.","Internazionale","#","Lavoratori e giovani","Continuamente"],
+  ["Eurodesk FVG","Orientamento alla mobilità transnazionale, tirocini e volontariato.","Informazioni su borse Erasmus+, Corpo Europeo di Solidarietà, tirocini all'estero e programmi di scambio. Rivolto ai giovani tra i 13 e i 30 anni.","Internazionale","#","Giovani 13–30 anni","Continuamente"],
+  ["CIMEA – Riconoscimento titoli esteri","Centro per il riconoscimento di qualifiche e titoli accademici esteri.","Supporta il riconoscimento di titoli di studio stranieri in Italia. Offre valutazioni comparative, verifica autenticità dei titoli e consulenza per studenti internazionali e rifugiati.","Internazionale","#","Cittadini stranieri, rifugiati","Continuamente"],
+  ["Conservatorio Tartini – Trieste","Alta formazione musicale: corsi, ammissioni e offerta formativa.","Il Conservatorio 'G. Tartini' offre corsi accademici di primo livello (triennio), secondo livello (biennio) e pre-accademici. Rilascia titoli equiparati alla laurea.","Alta formazione","#","Musicisti e cantanti","Annuale"],
+  ["Accademia Belle Arti – Udine","Corsi accademici di primo e secondo livello in arti visive.","L'Accademia 'G.B. Tiepolo' offre percorsi triennali e biennali in pittura, scultura, grafica, fotografia, scenografia e nuove tecnologie dell'arte.","Alta formazione","#","Diplomati interessati alle arti","Annuale"]
+];
+
+// ── Parsing CSV grezzo ────────────────────────────────────────────────────────
+function parseCSV(text) {
+  const rows = []; let cur = [], field = '', inQ = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i], next = text[i+1];
+    if (inQ) {
+      if (ch === '"' && next === '"') { field += '"'; i++; }
+      else if (ch === '"') { inQ = false; }
+      else { field += ch; }
+    } else {
+      if (ch === '"') { inQ = true; }
+      else if (ch === ',') { cur.push(field.trim()); field = ''; }
+      else if (ch === '\n' || (ch === '\r' && next === '\n')) {
+        cur.push(field.trim()); rows.push(cur); cur = []; field = '';
+        if (ch === '\r') i++;
+      } else { field += ch; }
+    }
+  }
+  if (field || cur.length) { cur.push(field.trim()); rows.push(cur); }
+  return rows;
+}
+
+function rowsToObjects(rows) {
+  if (rows.length < 2) return [];
+  const headers = rows[0].map(h => h.trim());
+  return rows.slice(1).filter(r => r.some(c => c)).map(r => {
+    const obj = {};
+    headers.forEach((h, i) => obj[h] = (r[i] || '').trim());
+    return obj;
+  });
+}
+
+// ── Stato globale ─────────────────────────────────────────────────────────────
+let allResources = [], visibleResources = [], activeFilter = 'Tutti';
+
+// ── Render principale ────────────────────────────────────────────────────────
+function renderApp() {
+  const cats = ['Tutti', ...new Set(allResources.map(r => r['Categoria']).filter(Boolean))];
+  document.getElementById('main-content').innerHTML = `
+    <div class="controls">
+      <div class="search-wrap">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 3.5 3.5" stroke-linecap="round"/>
+        </svg>
+        <input class="search-input" id="search" type="text" placeholder="Cerca per titolo, descrizione o categoria…">
+      </div>
+      <div class="filters" id="filters"></div>
+    </div>
+    <div class="stats-bar">
+      <span id="stats"></span>
+    </div>
+    <div class="grid" id="grid"></div>
+  `;
+  document.getElementById('search').addEventListener('input', filterAndRender);
+  renderFilters(cats);
+  filterAndRender();
+}
+
+function renderFilters(cats) {
+  document.getElementById('filters').innerHTML = cats.map(c =>
+    `<button class="filter-btn ${c === activeFilter ? 'active' : ''}"
+      onclick="setFilter('${c.replace(/'/g,"\\'")}')">
+      ${c}
+    </button>`
+  ).join('');
+}
+
+function setFilter(cat) {
+  activeFilter = cat;
+  const cats = ['Tutti', ...new Set(allResources.map(r => r['Categoria']).filter(Boolean))];
+  renderFilters(cats);
+  filterAndRender();
+}
+
+function filterAndRender() {
+  const q = (document.getElementById('search')?.value || '').toLowerCase();
+  visibleResources = allResources.filter(r => {
+    const mC = activeFilter === 'Tutti' || r['Categoria'] === activeFilter;
+    const mS = !q ||
+      (r['Titolo']||'').toLowerCase().includes(q) ||
+      (r['Descrizione']||'').toLowerCase().includes(q) ||
+      (r['Categoria']||'').toLowerCase().includes(q) ||
+      (r['Target']||'').toLowerCase().includes(q);
+    return mC && mS;
+  });
+  document.getElementById('stats').textContent = `${visibleResources.length} risorse trovate`;
+  const grid = document.getElementById('grid');
+  if (!visibleResources.length) {
+    grid.innerHTML = '<div class="no-results">Nessuna risorsa corrisponde alla ricerca.</div>';
+    return;
+  }
+  grid.innerHTML = visibleResources.map((r, i) => cardHTML(r, i)).join('');
+}
+
+function cardHTML(r, i) {
+  const c = CAT_COLORS[r['Categoria']] || DEFAULT_COLOR;
+  const url = r['URL'] && r['URL'] !== '#' ? r['URL'] : '';
+  const domain = url ? url.replace(/https?:\/\//, '').split('/')[0] : '—';
+  return `
+  <div class="card" onclick="openModal(${i})">
+    <div class="tooltip">
+      <div class="tooltip-url">${domain}</div>
+      <div class="tooltip-row"><strong>Per:</strong> ${r['Target'] || '—'}</div>
+      <div class="tooltip-row"><strong>Aggiornamento:</strong> ${r['Aggiornamento'] || '—'}</div>
+    </div>
+    <div class="card-top">
+      <div class="card-icon" style="background:${c.bg}">${c.icon}</div>
+      <div class="card-title">${r['Titolo'] || ''}</div>
+    </div>
+    <div class="card-desc">${r['Descrizione'] || ''}</div>
+    <div class="card-footer">
+      <span class="tag" style="background:${c.bg};color:${c.text};border-color:${c.border}">${r['Categoria'] || ''}</span>
+      <button class="btn-detail">Dettagli →</button>
+    </div>
+  </div>`;
+}
+
+function openModal(i) {
+  const r = visibleResources[i];
+  const c = CAT_COLORS[r['Categoria']] || DEFAULT_COLOR;
+  const url = r['URL'] && r['URL'] !== '#' ? r['URL'] : '';
+  document.getElementById('modal-content').innerHTML = `
+    <span class="modal-cat" style="background:${c.bg};color:${c.text};border:1px solid ${c.border}">${r['Categoria']}</span>
+    <h2>${r['Titolo'] || ''}</h2>
+    <p class="modal-detail">${r['Dettaglio'] || r['Descrizione'] || ''}</p>
+    <div class="modal-meta">
+      <div class="meta-row">
+        <span class="meta-label">A chi è rivolto</span>
+        <span class="meta-value">${r['Target'] || '—'}</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Aggiornamento</span>
+        <span class="meta-value">${r['Aggiornamento'] || '—'}</span>
+      </div>
+    </div>
+    ${url
+      ? `<a href="${url}" class="modal-link" target="_blank" rel="noopener">Vai al sito →</a>`
+      : `<p class="modal-nolink">Link in fase di verifica</p>`
+    }
+  `;
+  document.getElementById('overlay').classList.add('open');
+}
+
+document.getElementById('overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('overlay'))
+    document.getElementById('overlay').classList.remove('open');
+});
+document.getElementById('modalClose').addEventListener('click', () => {
+  document.getElementById('overlay').classList.remove('open');
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('overlay').classList.remove('open');
+});
+
+// ── Bootstrap ─────────────────────────────────────────────────────────────────
+async function init() {
+  const isConfigured = SHEET_CSV_URL && SHEET_CSV_URL !== 'INSERISCI_QUI_IL_TUO_URL_CSV';
+
+  if (!isConfigured) {
+    // Usa i dati di esempio
+    document.getElementById('configBanner').classList.add('visible');
+    allResources = rowsToObjects(SAMPLE_DATA);
+    renderApp();
+    return;
+  }
+
+  try {
+    const res = await fetch(SHEET_CSV_URL);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    const rows = parseCSV(text);
+    allResources = rowsToObjects(rows);
+    if (!allResources.length) throw new Error('Nessun dato trovato nel foglio.');
+    renderApp();
+  } catch (err) {
+    document.getElementById('loadingState').innerHTML = `
+      <p style="color:#b91c1c;font-size:14px">
+        ⚠️ Impossibile caricare i dati dal foglio Google.<br>
+        <span style="color:var(--text-3);font-size:12px;margin-top:6px;display:block">
+          Controlla che il foglio sia pubblicato come CSV e che l'URL sia corretto.<br>
+          Errore: ${err.message}
+        </span>
+      </p>`;
+  }
+}
+
+init();
+</script>
+</body>
+</html>
